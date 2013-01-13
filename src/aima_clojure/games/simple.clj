@@ -46,5 +46,3 @@
         "MAX"))
     (display [game state]
       (clojure.pprint/pprint (:moves state)))))
-
-(minimax-decision simple :A)
