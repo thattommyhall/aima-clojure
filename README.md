@@ -1,4 +1,13 @@
-aima-clojure
-============
+# aima-clojure
 
-Clojure implementation of algorithms from Russell and Norvig's Artificial Intelligence: A Modern Approach.
+A Clojure library designed to ... well, that part is up to you.
+
+## Usage
+
+FIXME
+
+## License
+
+Copyright © 2013 FIXME
+
+Distributed under the Eclipse Public License, the same as Clojure.
