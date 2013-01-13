@@ -30,5 +30,3 @@
   (apply max-key #(min-value game (make-move game state %))
          (moves game state)))
 
-
-

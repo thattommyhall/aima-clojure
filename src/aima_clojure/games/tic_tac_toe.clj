@@ -1,55 +1,52 @@
 (ns aima-clojure.games.tic-tac-toe
   (:use aima-clojure.game))
 
-(def initial-tic-state
-  {:to-move :o
-   :board [[:e :e :e]
-           [:o :o :e]
-           [:x :x :e]]
-   })
 
-(def tic-tac-toe
-  (letfn [(winner [state]
-            (let [triples
-                  (fn [board]
-                    (map #(map (partial get-in board) %)
-                         (concat
-                          (for [x [0 1 2]]
-                            [[x 0] [x 1] [x 2]])
-                          (for [y [0 1 2]]
-                            [[0 y] [1 y] [2 y]])  
-                          [[[0 0] [1 1] [2 2]]
-                           [[0 2] [1 1] [2 0]]]
-                          )))]
-              (ffirst (filter #(or (= [:o :o :o] %)
-                                   (= [:x :x :x] %))
-                              (triples (:board state)))))
-            )]
-    (reify
-      Game
-      (moves [game state]
-        (for [y (range 3)
-              x (range 3)
-              :when (= :e (get-in (:board state) [y x]))]
-          [y x]))
-          
-      (make-move [game state move]
-        {:to-move (if (= :o (:to-move state))
-                    :o
-                    :x)
-         :moves (disj (:moves state) move)
-         :board (assoc-in (:board state) move (:to-move state))})
-      (utility [game state player]
-        (if-let [w (winner state)]
-          (if (= player w)
-            1
-            -1)
-          0))
-      (terminal-test [game state]
-        (or (empty? (:moves state))
-            (winner state)))
-      (to-move [game state]
-        (:to-move state))
-      (display [game state]
-        (clojure.pprint/pprint (:moves state)))
-      )))
+(defn- calculate-utility [board move player k]
+                                        ;(some #(> % k)
+  (map (fn [[y-diff x-diff]]
+         (map #(get-in board %)
+              (take 4
+              (iterate (fn [[y x]]
+                         [(+ y y-diff)
+                          (+ x x-diff)])
+                       move))))
+       [[0 1] [1 0] [1 -1] [1 1]]))
+;)
+
+(calculate-utility [[:e :e :e]
+                    [:o :o :e]
+                    [:x :x :e]]
+                   [1 2]
+                   :o
+                   3)
+         
+
+(defn tic-tac-toe
+  ([] (tic-tac-toe {}))
+  ([{:keys [h v k]
+     :or {h 3
+          v 3
+          k 3}}]
+     (reify
+       Game
+       (moves [game state]
+         (for [y (range v)
+               x (range h)
+               :when (= :e (get-in (:board state) [y x]))]
+           [y x]))
+       (make-move [game
+                   {:keys [to-move board]}
+                   move]
+         {:to-move (if (= :o to-move) :x :o)
+          :board (assoc-in board move to-move)
+          :utility (calculate-utility board move player)})
+       (utility [game state player]
+         (:utility state))
+       (terminal-test [game state]
+         (or (not= 0 (:utility state))
+             (empty? (moves game state))))
+       (to-move [game state]
+         (:to-move state))
+       (display [game state]
+         (clojure.pprint/pprint (:board state))))))
