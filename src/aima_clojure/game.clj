@@ -7,7 +7,8 @@
   (utility [game state player])
   (terminal-test [game state])
   (to-move [game state])
-  (display [game state]))
+  (display [game state])
+  (initial [game]))
 
 (declare min-value)
 (defn max-value [game state]
