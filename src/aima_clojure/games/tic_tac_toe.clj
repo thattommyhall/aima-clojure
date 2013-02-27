@@ -59,7 +59,9 @@
           :board (assoc-in board move to-move)
           :utility (calculate-utility state move k)})
        (utility [game state player]
-         (:utility state))
+         (if (= player :x)
+           (:utility state)
+           (- (:utility state))))
        (terminal-test [game state]
          (or (not= 0 (:utility state))
              (empty? (moves game state))))
