@@ -41,13 +41,20 @@
                               :utility 0
                               })
            [1 2]))
-    ;; (is (= (minimax-decision (tic-tac-toe)
-    ;;                          {:to-move :x
-    ;;                           :board [[:o :e :x]
-    ;;                                   [:e :x :e]
-    ;;                                   [:e :x :e]]
-    ;;                           :utility 0})
-    ;;        [0 1]))
+    (is (= (minimax-decision (tic-tac-toe)
+                             {:to-move :x
+                              :board [[:o :e :x]
+                                      [:e :x :e]
+                                      [:o :x :e]]
+                              :utility 0})
+           [0 1]))
+    (is (= (minimax-decision (tic-tac-toe)
+                             {:to-move :o
+                              :board [[:o :e :o]
+                                      [:x :x :o]
+                                      [:x :e :x]]
+                              :utility 0})
+           [0 1]))
     (is (= (minimax-decision (tic-tac-toe)
                              {:to-move :o
                               :board [[:x :x :o]

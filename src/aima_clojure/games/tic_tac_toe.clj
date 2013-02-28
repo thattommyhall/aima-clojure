@@ -1,19 +1,24 @@
 (ns aima-clojure.games.tic-tac-toe
   (:use aima-clojure.game))
 
-(defn line [{:keys [to-move board] :as state}
-            [y x :as move]
-            [y-diff x-diff :as direction]]
+(defn- empty-count [{:keys [board] :as state}]
+  (reduce + (map (fn [row]
+                      (count (filter #{:e} row)))
+                    board)))
+  
+(defn- line [{:keys [to-move board] :as state}
+             [y x :as move]
+             [y-diff x-diff :as direction]]
   (map (fn [n]
          [(+ y (* y-diff n))
           (+ x (* x-diff n))
           ])
        (iterate inc 1)))
 
-(defn k-in-row? [{:keys [to-move board] :as state}
-                 move
-                 [y-diff x-diff :as direction]
-                 k]
+(defn- k-in-row? [{:keys [to-move board] :as state}
+                  move
+                  [y-diff x-diff :as direction]
+                  k]
   (let [opposite-direction [(- y-diff) (- x-diff)]]
     (>= (count
          (concat
@@ -21,19 +26,21 @@
           (take-while #(= to-move (get-in board %)) (line state move opposite-direction))))
         (dec k))))
 
-(defn calculate-utility [{:keys [to-move] :as state}
-                         move
-                         k]
+(defn- calculate-utility [{:keys [to-move] :as state}
+                          move
+                          k]
   (if (some #(k-in-row? state move % k)
             [[0 1] [1 0] [1 -1] [1 1]])
     (if (= to-move :x) 1 -1)
     0))
-  
+
 (def s {:to-move :x
         :board [[:o :e :x]
                 [:e :x :e]
                 [:o :x :e]]
         :utility 0})
+
+(empty-count s)
 
 (take 5 (line s [0 1] [0 1]))
 (calculate-utility s [0 1] 3)
@@ -59,9 +66,11 @@
           :board (assoc-in board move to-move)
           :utility (calculate-utility state move k)})
        (utility [game state player]
-         (if (= player :x)
-           (:utility state)
-           (- (:utility state))))
+         (* (empty-count state)
+            (if (= player :x)
+              (:utility state)
+              (- (:utility state)))
+            ))
        (terminal-test [game state]
          (or (not= 0 (:utility state))
              (empty? (moves game state))))
