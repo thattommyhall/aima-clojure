@@ -1,11 +1,11 @@
 (ns aima-clojure.games.tic-tac-toe
-  (:use aima-clojure.game))
+  (:require [aima-clojure.game :as game]))
 
 (defn- empty-count [{:keys [board] :as state}]
   (reduce + (map (fn [row]
-                      (count (filter #{:e} row)))
-                    board)))
-  
+                   (count (filter #{:e} row)))
+                 board)))
+
 (defn- line [{:keys [to-move board] :as state}
              [y x :as move]
              [y-diff x-diff :as direction]]
@@ -53,7 +53,7 @@
           v 3
           k 3}}]
      (reify
-       Game
+       aima-clojure.game/Game
        (moves [game state]
          (for [y (range v)
                x (range h)
@@ -69,11 +69,10 @@
          (* (empty-count state)
             (if (= player :x)
               (:utility state)
-              (- (:utility state)))
-            ))
+              (- (:utility state)))))
        (terminal-test [game state]
          (or (not= 0 (:utility state))
-             (empty? (moves game state))))
+             (empty? (game/moves game state))))
        (to-move [game state]
          (:to-move state))
        (display [game state]

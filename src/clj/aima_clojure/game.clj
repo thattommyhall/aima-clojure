@@ -1,5 +1,4 @@
-(ns aima-clojure.game
-  (:require [clojure.pprint]))
+(ns aima-clojure.game)
 
 (defprotocol Game
   (moves [game state])

@@ -1,5 +1,6 @@
 (ns aima-clojure.games.simple
-  (:use aima-clojure.game))
+  (:use aima-clojure.game)
+  (:require clojure.pprint))
 
 (def succs
   {:A {:a1 :B

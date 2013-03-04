@@ -1,4 +1,4 @@
-pom.xml
+\pom.xml
 *jar
 /lib/
 /classes/
@@ -9,3 +9,4 @@ pom.xml
 *.class
 .lein-failures
 .lein-plugins
+crossover-cljs
