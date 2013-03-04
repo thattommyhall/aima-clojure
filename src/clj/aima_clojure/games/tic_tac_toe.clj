@@ -45,7 +45,7 @@
 (take 5 (line s [0 1] [0 1]))
 (calculate-utility s [0 1] 3)
 
-
+(def moves game/moves)
 (defn tic-tac-toe
   ([] (tic-tac-toe {}))
   ([{:keys [h v k]
@@ -72,7 +72,7 @@
               (- (:utility state)))))
        (terminal-test [game state]
          (or (not= 0 (:utility state))
-             (empty? (game/moves game state))))
+             (empty? (moves game state))))
        (to-move [game state]
          (:to-move state))
        (display [game state]

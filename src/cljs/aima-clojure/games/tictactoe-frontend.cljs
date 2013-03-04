@@ -2,7 +2,7 @@
   (:require [clojure.string :as string]
             [goog.dom :as dom]
             [aima-clojure.games.tic-tac-toe :as ttt]
-           
+            [aima-clojure.game :as game]
             ))
 
 (defn log [str]
@@ -31,11 +31,81 @@
     (. surface (closePath))
     (. surface (fill))))
 
-(def g (ttt/tic-tac-toe))
+(def tic-tac-toe (ttt/tic-tac-toe))
+(def make-move game/make-move)
+(def minimax-decision game/minimax-decision)
+(defn tests []
+
+  (log (= (make-move tic-tac-toe
+                     {:to-move :o
+                      :board [[:e :e :e]
+                              [:o :o :e]
+                              [:x :x :e]]
+                      :utility 0}
+                     [1 2])
+          {:to-move :x
+           :board [[:e :e :e]
+                   [:o :o :o]
+                   [:x :x :e]]
+           :utility -1}))
+  (log (= (make-move tic-tac-toe
+                     {:to-move :x
+                      :board [[:e :e :e]
+                              [:o :o :e]
+                              [:x :x :e]]
+                      :utility 0}
+                     [2 2])
+          {:to-move :o
+           :board [[:e :e :e]
+                   [:o :o :e]
+                   [:x :x :x]]
+           :utility 1}))
+  
+  
+  
+
+  (log (= (minimax-decision tic-tac-toe
+                            {:to-move :x
+                             :board [[:x :e :e]
+                                     [:o :o :e]
+                                     [:x :e :e]]
+                             :utility 0
+                             })
+          [1 2]))
+  (log (= (minimax-decision tic-tac-toe
+                            {:to-move :x
+                             :board [[:o :e :x]
+                                     [:e :x :e]
+                                     [:o :x :e]]
+                             :utility 0})
+          [0 1]))
+  (log (= (minimax-decision tic-tac-toe
+                            {:to-move :o
+                             :board [[:o :e :o]
+                                     [:x :x :o]
+                                     [:x :e :x]]
+                             :utility 0})
+          [0 1]))
+  (log (= (minimax-decision tic-tac-toe
+                            {:to-move :o
+                             :board [[:x :x :o]
+                                     [:e :o :x]
+                                     [:e :o :x]]
+                             :utility 0})
+          [2 0]))
+  (log (= (minimax-decision tic-tac-toe
+                            {:to-move :o
+                             :board [[:o :e :o]
+                                     [:x :x :o]
+                                     [:x :e :x]]
+                             :utility 0})
+          [0 1])))
 
 (defn ^:export playGame []
-  (let [board (ctx)]    
+  (let [board (ctx)]
     (fill-rect board [0 0 30 20] [255 255 255])))
 
 
-(playGame)
+(tests)
+
+  ;; (playGame)
