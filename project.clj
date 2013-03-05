@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/test.generative "0.1.4"]
                  [org.clojure/data.generators "0.1.0"]
-                 [org.clojure/clojurescript "0.0-1450"]]
+                 [org.clojure/clojurescript "0.0-1586"]
+                 ]
   :plugins [[lein-cljsbuild "0.3.0"]]
   :source-paths ["src/clj"]             
   :cljsbuild {

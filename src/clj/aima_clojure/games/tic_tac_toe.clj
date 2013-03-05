@@ -1,5 +1,5 @@
 (ns aima-clojure.games.tic-tac-toe
-  (:require [aima-clojure.game :as game]))
+  (:require [aima-clojure.game]))
 
 (defn- empty-count [{:keys [board] :as state}]
   (reduce + (map (fn [row]
@@ -45,7 +45,6 @@
 (take 5 (line s [0 1] [0 1]))
 (calculate-utility s [0 1] 3)
 
-(def moves game/moves)
 (defn tic-tac-toe
   ([] (tic-tac-toe {}))
   ([{:keys [h v k]
@@ -72,7 +71,7 @@
               (- (:utility state)))))
        (terminal-test [game state]
          (or (not= 0 (:utility state))
-             (empty? (moves game state))))
+             (empty? (aima-clojure.game/moves game state))))
        (to-move [game state]
          (:to-move state))
        (display [game state]
