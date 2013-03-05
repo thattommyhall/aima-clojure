@@ -1,5 +1,6 @@
 (ns aima-clojure.games.tic-tac-toe
-  (:require [aima-clojure.game]))
+  (:require [aima-clojure.game]
+            [clojure.pprint]))
 
 (defn- empty-count [{:keys [board] :as state}]
   (reduce + (map (fn [row]
@@ -53,6 +54,11 @@
           k 3}}]
      (reify
        aima-clojure.game/Game
+       (initial [game] {:to-move :x
+                        :board [[:e :e :e]
+                                [:e :e :e]
+                                [:e :e :e]]
+                        :utility 0})
        (moves [game state]
          (for [y (range v)
                x (range h)
@@ -74,17 +80,19 @@
              (empty? (aima-clojure.game/moves game state))))
        (to-move [game state]
          (:to-move state))
-       (display [game state]
-         (clojure.pprint/pprint (:board state)))
-       (initial [game] {:to-move :x
-                        :board [[:e :e :e]
-                                [:e :e :e]
-                                [:e :e :e]]
-                        :utility 0})
+       (display [game
+                 {:keys [to-move board] :as state}]
+         (println "To move: " to-move)
+         (doseq [row board]
+           (println row))
+         (println "***************"))
+       
+
        )))
 
+(def r aima-clojure.game/random-player)
+(def mm aima-clojure.game/minimax-player)
 (defn -main []
-  (println (take 3 (line s
-                         [2 0]
-                         [-1 0]))
-           ))
+  (aima-clojure.game/play (tic-tac-toe) mm r)
+  (println "done")
+  )

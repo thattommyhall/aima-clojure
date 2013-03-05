@@ -13,6 +13,8 @@
   :cljsbuild {
               :crossovers [aima-clojure.game aima-clojure.games.tic-tac-toe]
               :crossover-path "crossover-cljs"
+              :test-commands
+              {"ttt" ["phantomjs" "public/games-dev.js" ""]}
               :builds {
                        :dev
                        {:source-paths ["src/cljs"]

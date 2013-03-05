@@ -487,6 +487,19 @@ goog.base = function(me, opt_methodName, var_args) {
 goog.scope = function(fn) {
   fn.call(goog.global)
 };
+goog.provide("goog.debug.Error");
+goog.debug.Error = function(opt_msg) {
+  if(Error.captureStackTrace) {
+    Error.captureStackTrace(this, goog.debug.Error)
+  }else {
+    this.stack = (new Error).stack || ""
+  }
+  if(opt_msg) {
+    this.message = String(opt_msg)
+  }
+};
+goog.inherits(goog.debug.Error, Error);
+goog.debug.Error.prototype.name = "CustomError";
 goog.provide("goog.string");
 goog.provide("goog.string.Unicode");
 goog.string.Unicode = {NBSP:"\u00a0"};
@@ -927,19 +940,6 @@ goog.string.parseInt = function(value) {
   }
   return NaN
 };
-goog.provide("goog.debug.Error");
-goog.debug.Error = function(opt_msg) {
-  if(Error.captureStackTrace) {
-    Error.captureStackTrace(this, goog.debug.Error)
-  }else {
-    this.stack = (new Error).stack || ""
-  }
-  if(opt_msg) {
-    this.message = String(opt_msg)
-  }
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
 goog.provide("goog.asserts");
 goog.provide("goog.asserts.AssertionError");
 goog.require("goog.debug.Error");
@@ -21466,57 +21466,57 @@ aima_clojure.game.minimax_decision = function minimax_decision(game, state) {
 goog.provide("aima_clojure.games.tic_tac_toe");
 goog.require("cljs.core");
 goog.require("aima_clojure.game");
-aima_clojure.games.tic_tac_toe.empty_count = function empty_count(p__2932) {
-  var map__2934 = p__2932;
-  var map__2934__$1 = cljs.core.seq_QMARK_.call(null, map__2934) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2934) : map__2934;
-  var state = map__2934__$1;
-  var board = cljs.core._lookup.call(null, map__2934__$1, "\ufdd0:board", null);
+aima_clojure.games.tic_tac_toe.empty_count = function empty_count(p__2906) {
+  var map__2908 = p__2906;
+  var map__2908__$1 = cljs.core.seq_QMARK_.call(null, map__2908) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2908) : map__2908;
+  var state = map__2908__$1;
+  var board = cljs.core._lookup.call(null, map__2908__$1, "\ufdd0:board", null);
   return cljs.core.reduce.call(null, cljs.core._PLUS_, cljs.core.map.call(null, function(row) {
     return cljs.core.count.call(null, cljs.core.filter.call(null, cljs.core.PersistentHashSet.fromArray(["\ufdd0:e"]), row))
   }, board))
 };
-aima_clojure.games.tic_tac_toe.line = function line(p__2937, p__2938, p__2939) {
-  var map__2943 = p__2937;
-  var map__2943__$1 = cljs.core.seq_QMARK_.call(null, map__2943) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2943) : map__2943;
-  var state = map__2943__$1;
-  var board = cljs.core._lookup.call(null, map__2943__$1, "\ufdd0:board", null);
-  var to_move = cljs.core._lookup.call(null, map__2943__$1, "\ufdd0:to-move", null);
-  var vec__2944 = p__2938;
-  var y = cljs.core.nth.call(null, vec__2944, 0, null);
-  var x = cljs.core.nth.call(null, vec__2944, 1, null);
-  var move = vec__2944;
-  var vec__2945 = p__2939;
-  var y_diff = cljs.core.nth.call(null, vec__2945, 0, null);
-  var x_diff = cljs.core.nth.call(null, vec__2945, 1, null);
-  var direction = vec__2945;
+aima_clojure.games.tic_tac_toe.line = function line(p__2911, p__2912, p__2913) {
+  var map__2917 = p__2911;
+  var map__2917__$1 = cljs.core.seq_QMARK_.call(null, map__2917) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2917) : map__2917;
+  var state = map__2917__$1;
+  var board = cljs.core._lookup.call(null, map__2917__$1, "\ufdd0:board", null);
+  var to_move = cljs.core._lookup.call(null, map__2917__$1, "\ufdd0:to-move", null);
+  var vec__2918 = p__2912;
+  var y = cljs.core.nth.call(null, vec__2918, 0, null);
+  var x = cljs.core.nth.call(null, vec__2918, 1, null);
+  var move = vec__2918;
+  var vec__2919 = p__2913;
+  var y_diff = cljs.core.nth.call(null, vec__2919, 0, null);
+  var x_diff = cljs.core.nth.call(null, vec__2919, 1, null);
+  var direction = vec__2919;
   return cljs.core.map.call(null, function(n) {
     return cljs.core.PersistentVector.fromArray([y + y_diff * n, x + x_diff * n], true)
   }, cljs.core.iterate.call(null, cljs.core.inc, 1))
 };
-aima_clojure.games.tic_tac_toe.k_in_row_QMARK_ = function k_in_row_QMARK_(p__2947, move, p__2948, k) {
-  var map__2951 = p__2947;
-  var map__2951__$1 = cljs.core.seq_QMARK_.call(null, map__2951) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2951) : map__2951;
-  var state = map__2951__$1;
-  var board = cljs.core._lookup.call(null, map__2951__$1, "\ufdd0:board", null);
-  var to_move = cljs.core._lookup.call(null, map__2951__$1, "\ufdd0:to-move", null);
-  var vec__2952 = p__2948;
-  var y_diff = cljs.core.nth.call(null, vec__2952, 0, null);
-  var x_diff = cljs.core.nth.call(null, vec__2952, 1, null);
-  var direction = vec__2952;
+aima_clojure.games.tic_tac_toe.k_in_row_QMARK_ = function k_in_row_QMARK_(p__2921, move, p__2922, k) {
+  var map__2925 = p__2921;
+  var map__2925__$1 = cljs.core.seq_QMARK_.call(null, map__2925) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2925) : map__2925;
+  var state = map__2925__$1;
+  var board = cljs.core._lookup.call(null, map__2925__$1, "\ufdd0:board", null);
+  var to_move = cljs.core._lookup.call(null, map__2925__$1, "\ufdd0:to-move", null);
+  var vec__2926 = p__2922;
+  var y_diff = cljs.core.nth.call(null, vec__2926, 0, null);
+  var x_diff = cljs.core.nth.call(null, vec__2926, 1, null);
+  var direction = vec__2926;
   var opposite_direction = cljs.core.PersistentVector.fromArray([-y_diff, -x_diff], true);
-  return cljs.core.count.call(null, cljs.core.concat.call(null, cljs.core.take_while.call(null, function(p1__2935_SHARP_) {
-    return cljs.core._EQ_.call(null, to_move, cljs.core.get_in.call(null, board, p1__2935_SHARP_))
-  }, aima_clojure.games.tic_tac_toe.line.call(null, state, move, direction)), cljs.core.take_while.call(null, function(p1__2936_SHARP_) {
-    return cljs.core._EQ_.call(null, to_move, cljs.core.get_in.call(null, board, p1__2936_SHARP_))
+  return cljs.core.count.call(null, cljs.core.concat.call(null, cljs.core.take_while.call(null, function(p1__2909_SHARP_) {
+    return cljs.core._EQ_.call(null, to_move, cljs.core.get_in.call(null, board, p1__2909_SHARP_))
+  }, aima_clojure.games.tic_tac_toe.line.call(null, state, move, direction)), cljs.core.take_while.call(null, function(p1__2910_SHARP_) {
+    return cljs.core._EQ_.call(null, to_move, cljs.core.get_in.call(null, board, p1__2910_SHARP_))
   }, aima_clojure.games.tic_tac_toe.line.call(null, state, move, opposite_direction)))) >= k - 1
 };
-aima_clojure.games.tic_tac_toe.calculate_utility = function calculate_utility(p__2953, move, k) {
-  var map__2955 = p__2953;
-  var map__2955__$1 = cljs.core.seq_QMARK_.call(null, map__2955) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2955) : map__2955;
-  var state = map__2955__$1;
-  var to_move = cljs.core._lookup.call(null, map__2955__$1, "\ufdd0:to-move", null);
-  if(cljs.core.truth_(cljs.core.some.call(null, function(p1__2946_SHARP_) {
-    return aima_clojure.games.tic_tac_toe.k_in_row_QMARK_.call(null, state, move, p1__2946_SHARP_, k)
+aima_clojure.games.tic_tac_toe.calculate_utility = function calculate_utility(p__2927, move, k) {
+  var map__2929 = p__2927;
+  var map__2929__$1 = cljs.core.seq_QMARK_.call(null, map__2929) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2929) : map__2929;
+  var state = map__2929__$1;
+  var to_move = cljs.core._lookup.call(null, map__2929__$1, "\ufdd0:to-move", null);
+  if(cljs.core.truth_(cljs.core.some.call(null, function(p1__2920_SHARP_) {
+    return aima_clojure.games.tic_tac_toe.k_in_row_QMARK_.call(null, state, move, p1__2920_SHARP_, k)
   }, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, -1], true), cljs.core.PersistentVector.fromArray([1, 1], true)], true)))) {
     if(cljs.core._EQ_.call(null, to_move, "\ufdd0:x")) {
       return 1
@@ -21536,54 +21536,54 @@ aima_clojure.games.tic_tac_toe.tic_tac_toe = function() {
   var tic_tac_toe__0 = function() {
     return tic_tac_toe.call(null, cljs.core.ObjMap.EMPTY)
   };
-  var tic_tac_toe__1 = function(p__2956) {
-    var map__2967 = p__2956;
-    var map__2967__$1 = cljs.core.seq_QMARK_.call(null, map__2967) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2967) : map__2967;
-    var k = cljs.core._lookup.call(null, map__2967__$1, "\ufdd0:k", 3);
-    var v = cljs.core._lookup.call(null, map__2967__$1, "\ufdd0:v", 3);
-    var h = cljs.core._lookup.call(null, map__2967__$1, "\ufdd0:h", 3);
-    if(void 0 === aima_clojure.games.tic_tac_toe.t2968) {
-      goog.provide("aima_clojure.games.tic_tac_toe.t2968");
-      aima_clojure.games.tic_tac_toe.t2968 = function(h, v, k, map__2967, p__2956, tic_tac_toe, meta2969) {
+  var tic_tac_toe__1 = function(p__2930) {
+    var map__2941 = p__2930;
+    var map__2941__$1 = cljs.core.seq_QMARK_.call(null, map__2941) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2941) : map__2941;
+    var k = cljs.core._lookup.call(null, map__2941__$1, "\ufdd0:k", 3);
+    var v = cljs.core._lookup.call(null, map__2941__$1, "\ufdd0:v", 3);
+    var h = cljs.core._lookup.call(null, map__2941__$1, "\ufdd0:h", 3);
+    if(void 0 === aima_clojure.games.tic_tac_toe.t2942) {
+      goog.provide("aima_clojure.games.tic_tac_toe.t2942");
+      aima_clojure.games.tic_tac_toe.t2942 = function(h, v, k, map__2941, p__2930, tic_tac_toe, meta2943) {
         this.h = h;
         this.v = v;
         this.k = k;
-        this.map__2967 = map__2967;
-        this.p__2956 = p__2956;
+        this.map__2941 = map__2941;
+        this.p__2930 = p__2930;
         this.tic_tac_toe = tic_tac_toe;
-        this.meta2969 = meta2969;
+        this.meta2943 = meta2943;
         this.cljs$lang$protocol_mask$partition1$ = 0;
         this.cljs$lang$protocol_mask$partition0$ = 393216
       };
-      aima_clojure.games.tic_tac_toe.t2968.cljs$lang$type = true;
-      aima_clojure.games.tic_tac_toe.t2968.cljs$lang$ctorPrSeq = function(this__2386__auto__) {
-        return cljs.core.list.call(null, "aima-clojure.games.tic-tac-toe/t2968")
+      aima_clojure.games.tic_tac_toe.t2942.cljs$lang$type = true;
+      aima_clojure.games.tic_tac_toe.t2942.cljs$lang$ctorPrSeq = function(this__2386__auto__) {
+        return cljs.core.list.call(null, "aima-clojure.games.tic-tac-toe/t2942")
       };
-      aima_clojure.games.tic_tac_toe.t2968.cljs$lang$ctorPrWriter = function(this__2386__auto__, writer__2387__auto__, opt__2388__auto__) {
-        return cljs.core._write.call(null, writer__2387__auto__, "aima-clojure.games.tic-tac-toe/t2968")
+      aima_clojure.games.tic_tac_toe.t2942.cljs$lang$ctorPrWriter = function(this__2386__auto__, writer__2387__auto__, opt__2388__auto__) {
+        return cljs.core._write.call(null, writer__2387__auto__, "aima-clojure.games.tic-tac-toe/t2942")
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$ = true;
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$moves$arity$2 = function(game, state) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$ = true;
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$moves$arity$2 = function(game, state) {
         var self__ = this;
-        var iter__2543__auto__ = function iter__2971(s__2972) {
+        var iter__2543__auto__ = function iter__2945(s__2946) {
           return new cljs.core.LazySeq(null, false, function() {
-            var s__2972__$1 = s__2972;
+            var s__2946__$1 = s__2946;
             while(true) {
-              if(cljs.core.seq.call(null, s__2972__$1)) {
-                var y = cljs.core.first.call(null, s__2972__$1);
-                var iterys__2541__auto__ = function(s__2972__$1, y) {
-                  return function iter__2973(s__2974) {
-                    return new cljs.core.LazySeq(null, false, function(s__2972__$1, y) {
+              if(cljs.core.seq.call(null, s__2946__$1)) {
+                var y = cljs.core.first.call(null, s__2946__$1);
+                var iterys__2541__auto__ = function(s__2946__$1, y) {
+                  return function iter__2947(s__2948) {
+                    return new cljs.core.LazySeq(null, false, function(s__2946__$1, y) {
                       return function() {
-                        var s__2974__$1 = s__2974;
+                        var s__2948__$1 = s__2948;
                         while(true) {
-                          if(cljs.core.seq.call(null, s__2974__$1)) {
-                            var x = cljs.core.first.call(null, s__2974__$1);
+                          if(cljs.core.seq.call(null, s__2948__$1)) {
+                            var x = cljs.core.first.call(null, s__2948__$1);
                             if(cljs.core._EQ_.call(null, "\ufdd0:e", cljs.core.get_in.call(null, (new cljs.core.Keyword("\ufdd0:board")).call(null, state), cljs.core.PersistentVector.fromArray([y, x], true)))) {
-                              return cljs.core.cons.call(null, cljs.core.PersistentVector.fromArray([y, x], true), iter__2973.call(null, cljs.core.rest.call(null, s__2974__$1)))
+                              return cljs.core.cons.call(null, cljs.core.PersistentVector.fromArray([y, x], true), iter__2947.call(null, cljs.core.rest.call(null, s__2948__$1)))
                             }else {
-                              var G__2977 = cljs.core.rest.call(null, s__2974__$1);
-                              s__2974__$1 = G__2977;
+                              var G__2951 = cljs.core.rest.call(null, s__2948__$1);
+                              s__2948__$1 = G__2951;
                               continue
                             }
                           }else {
@@ -21592,15 +21592,15 @@ aima_clojure.games.tic_tac_toe.tic_tac_toe = function() {
                           break
                         }
                       }
-                    }(s__2972__$1, y), null)
+                    }(s__2946__$1, y), null)
                   }
-                }(s__2972__$1, y);
+                }(s__2946__$1, y);
                 var fs__2542__auto__ = cljs.core.seq.call(null, iterys__2541__auto__.call(null, cljs.core.range.call(null, self__.h)));
                 if(fs__2542__auto__) {
-                  return cljs.core.concat.call(null, fs__2542__auto__, iter__2971.call(null, cljs.core.rest.call(null, s__2972__$1)))
+                  return cljs.core.concat.call(null, fs__2542__auto__, iter__2945.call(null, cljs.core.rest.call(null, s__2946__$1)))
                 }else {
-                  var G__2978 = cljs.core.rest.call(null, s__2972__$1);
-                  s__2972__$1 = G__2978;
+                  var G__2952 = cljs.core.rest.call(null, s__2946__$1);
+                  s__2946__$1 = G__2952;
                   continue
                 }
               }else {
@@ -21612,20 +21612,20 @@ aima_clojure.games.tic_tac_toe.tic_tac_toe = function() {
         };
         return iter__2543__auto__.call(null, cljs.core.range.call(null, self__.v))
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$make_move$arity$3 = function(game, p__2975, move) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$make_move$arity$3 = function(game, p__2949, move) {
         var self__ = this;
-        var map__2976 = p__2975;
-        var map__2976__$1 = cljs.core.seq_QMARK_.call(null, map__2976) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2976) : map__2976;
-        var state = map__2976__$1;
-        var board = cljs.core._lookup.call(null, map__2976__$1, "\ufdd0:board", null);
-        var to_move = cljs.core._lookup.call(null, map__2976__$1, "\ufdd0:to-move", null);
+        var map__2950 = p__2949;
+        var map__2950__$1 = cljs.core.seq_QMARK_.call(null, map__2950) ? cljs.core.apply.call(null, cljs.core.hash_map, map__2950) : map__2950;
+        var state = map__2950__$1;
+        var board = cljs.core._lookup.call(null, map__2950__$1, "\ufdd0:board", null);
+        var to_move = cljs.core._lookup.call(null, map__2950__$1, "\ufdd0:to-move", null);
         return cljs.core.ObjMap.fromObject(["\ufdd0:to-move", "\ufdd0:board", "\ufdd0:utility"], {"\ufdd0:to-move":cljs.core._EQ_.call(null, "\ufdd0:o", to_move) ? "\ufdd0:x" : "\ufdd0:o", "\ufdd0:board":cljs.core.assoc_in.call(null, board, move, to_move), "\ufdd0:utility":aima_clojure.games.tic_tac_toe.calculate_utility.call(null, state, move, self__.k)})
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$utility$arity$3 = function(game, state, player) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$utility$arity$3 = function(game, state, player) {
         var self__ = this;
         return aima_clojure.games.tic_tac_toe.empty_count.call(null, state) * (cljs.core._EQ_.call(null, player, "\ufdd0:x") ? (new cljs.core.Keyword("\ufdd0:utility")).call(null, state) : -(new cljs.core.Keyword("\ufdd0:utility")).call(null, state))
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$terminal_test$arity$2 = function(game, state) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$terminal_test$arity$2 = function(game, state) {
         var self__ = this;
         var or__3824__auto__ = cljs.core.not_EQ_.call(null, 0, (new cljs.core.Keyword("\ufdd0:utility")).call(null, state));
         if(or__3824__auto__) {
@@ -21634,36 +21634,36 @@ aima_clojure.games.tic_tac_toe.tic_tac_toe = function() {
           return cljs.core.empty_QMARK_.call(null, game.aima_clojure$game$Game$moves$arity$2(game, state))
         }
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$to_move$arity$2 = function(game, state) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$to_move$arity$2 = function(game, state) {
         var self__ = this;
         return(new cljs.core.Keyword("\ufdd0:to-move")).call(null, state)
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$display$arity$2 = function(game, state) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$display$arity$2 = function(game, state) {
         var self__ = this;
         return clojure.pprint.pprint.call(null, (new cljs.core.Keyword("\ufdd0:board")).call(null, state))
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.aima_clojure$game$Game$initial$arity$1 = function(game) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.aima_clojure$game$Game$initial$arity$1 = function(game) {
         var self__ = this;
         return cljs.core.ObjMap.fromObject(["\ufdd0:to-move", "\ufdd0:board", "\ufdd0:utility"], {"\ufdd0:to-move":"\ufdd0:x", "\ufdd0:board":cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray(["\ufdd0:e", "\ufdd0:e", "\ufdd0:e"], true), cljs.core.PersistentVector.fromArray(["\ufdd0:e", "\ufdd0:e", "\ufdd0:e"], true), cljs.core.PersistentVector.fromArray(["\ufdd0:e", "\ufdd0:e", "\ufdd0:e"], true)], true), "\ufdd0:utility":0})
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.cljs$core$IMeta$_meta$arity$1 = function(_2970) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.cljs$core$IMeta$_meta$arity$1 = function(_2944) {
         var self__ = this;
-        return self__.meta2969
+        return self__.meta2943
       };
-      aima_clojure.games.tic_tac_toe.t2968.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_2970, meta2969__$1) {
+      aima_clojure.games.tic_tac_toe.t2942.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(_2944, meta2943__$1) {
         var self__ = this;
-        return new aima_clojure.games.tic_tac_toe.t2968(self__.h, self__.v, self__.k, self__.map__2967, self__.p__2956, self__.tic_tac_toe, meta2969__$1)
+        return new aima_clojure.games.tic_tac_toe.t2942(self__.h, self__.v, self__.k, self__.map__2941, self__.p__2930, self__.tic_tac_toe, meta2943__$1)
       }
     }else {
     }
-    return new aima_clojure.games.tic_tac_toe.t2968(h, v, k, map__2967__$1, p__2956, tic_tac_toe, null)
+    return new aima_clojure.games.tic_tac_toe.t2942(h, v, k, map__2941__$1, p__2930, tic_tac_toe, null)
   };
-  tic_tac_toe = function(p__2956) {
+  tic_tac_toe = function(p__2930) {
     switch(arguments.length) {
       case 0:
         return tic_tac_toe__0.call(this);
       case 1:
-        return tic_tac_toe__1.call(this, p__2956)
+        return tic_tac_toe__1.call(this, p__2930)
     }
     throw new Error("Invalid arity: " + arguments.length);
   };

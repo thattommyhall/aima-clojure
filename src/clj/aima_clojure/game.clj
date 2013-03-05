@@ -31,3 +31,26 @@
     (apply max-key #(min-value game (make-move game state %) player)
            (moves game state))))
 
+;;; Players
+(defn random-player [game state]
+  (rand-nth (moves game state)))
+
+(defn minimax-player [game state]
+  (minimax-decision game state))
+
+(defn play [game & players]
+  (def state (atom (initial game)))
+  (let [final-state
+        (first
+         (drop-while
+          (fn [state]
+            (display game state)
+            (not (terminal-test game state)))
+          (for [p (cycle players)]
+            (swap! state #(make-move game
+                                     %
+                                     (p game %))))))
+        player (to-move game final-state)
+        score (utility game final-state player)
+        ]
+    (println "Score was " score " for " player)))
